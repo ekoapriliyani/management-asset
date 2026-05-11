@@ -5,9 +5,9 @@ use App\Http\Controllers\AssetCategoryController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Asset;
+use App\Models\AssetAssignment;
 use Illuminate\Support\Facades\Route;
-
-
 
 
 
@@ -16,7 +16,25 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $totalAssets = Asset::count();
+    $availableAssets = Asset::where('status', 'available')->count();
+    $inUseAssets = Asset::where('status', 'in_use')->count();
+    $maintenanceAssets = Asset::where('status', 'maintenance')->count();
+    $brokenAssets = Asset::where('status', 'broken')->count();
+
+    $recentAssignments = AssetAssignment::with(['asset', 'location'])
+        ->latest()
+        ->take(5)
+        ->get();
+
+    return view('dashboard', compact(
+        'totalAssets',
+        'availableAssets',
+        'inUseAssets',
+        'maintenanceAssets',
+        'brokenAssets',
+        'recentAssignments'
+    ));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -38,6 +56,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::put('/asset-assignments/{assignment}/return', [AssetAssignmentController::class, 'returnAsset'])
         ->name('asset-assignments.return');
+
+    Route::get('/assets/{asset}/qrcode', [AssetController::class, 'qrcode'])
+        ->name('assets.qrcode');
 });
 
 require __DIR__ . '/auth.php';

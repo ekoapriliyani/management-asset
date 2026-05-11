@@ -8,6 +8,8 @@ use App\Models\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+
 class AssetController extends Controller
 {
     public function index()
@@ -59,7 +61,12 @@ class AssetController extends Controller
 
     public function show(Asset $asset)
     {
-        $asset->load(['category', 'location']);
+        $asset->load([
+            'category',
+            'location',
+            'assignments.location',
+            'activeAssignment.location',
+        ]);
 
         return view('assets.show', compact('asset'));
     }
@@ -117,5 +124,10 @@ class AssetController extends Controller
         return redirect()
             ->route('assets.index')
             ->with('success', 'Asset berhasil dihapus.');
+    }
+
+    public function qrcode(Asset $asset)
+    {
+        return view('assets.qrcode', compact('asset'));
     }
 }
