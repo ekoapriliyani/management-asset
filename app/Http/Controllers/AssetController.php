@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class AssetController extends Controller
 {
@@ -129,5 +130,17 @@ class AssetController extends Controller
     public function qrcode(Asset $asset)
     {
         return view('assets.qrcode', compact('asset'));
+    }
+
+    public function exportPdf()
+    {
+        $assets = Asset::with(['category', 'location'])
+            ->orderBy('asset_code')
+            ->get();
+
+        $pdf = Pdf::loadView('assets.export-pdf', compact('assets'))
+            ->setPaper('a4', 'landscape');
+
+        return $pdf->download('laporan-data-asset.pdf');
     }
 }

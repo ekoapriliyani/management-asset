@@ -59,6 +59,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/assets/{asset}/qrcode', [AssetController::class, 'qrcode'])
         ->name('assets.qrcode');
+
+    Route::get('/assets-export-pdf', [AssetController::class, 'exportPdf'])
+        ->name('assets.export-pdf');
 });
 
 require __DIR__ . '/auth.php';

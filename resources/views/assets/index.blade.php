@@ -1,14 +1,24 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                Data Asset
-            </h2>
-
-            <a href="{{ route('assets.create') }}"
-                class="rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold uppercase text-white hover:bg-indigo-700">
-                + Tambah Asset
-            </a>
+        <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div>
+                <h2 class="text-2xl font-bold text-gray-800">
+                    Data Asset
+                </h2>
+                <p class="mt-1 text-sm text-gray-500">
+                    Kelola seluruh data asset perusahaan
+                </p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <a href="{{ route('assets.export-pdf') }}"
+                    class="inline-flex items-center rounded-lg bg-red-600 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white shadow transition hover:bg-red-700">
+                    Export PDF
+                </a>
+                <a href="{{ route('assets.create') }}"
+                    class="inline-flex items-center rounded-lg bg-indigo-600 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white shadow transition hover:bg-indigo-700">
+                    + Tambah Asset
+                </a>
+            </div>
         </div>
     </x-slot>
 
