@@ -42,4 +42,9 @@ class Asset extends Model
             ->where('status', 'active')
             ->latestOfMany();
     }
+
+    public function maintenances()
+    {
+        return $this->hasMany(AssetMaintenance::class);
+    }
 }

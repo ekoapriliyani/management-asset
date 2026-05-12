@@ -92,11 +92,11 @@ class AssetController extends Controller
             'location',
             'assignments.location',
             'activeAssignment.location',
+            'maintenances',
         ]);
 
         return view('assets.show', compact('asset'));
     }
-
     public function edit(Asset $asset)
     {
         $categories = AssetCategory::orderBy('name')->get();

@@ -3,11 +3,13 @@
 use App\Http\Controllers\AssetAssignmentController;
 use App\Http\Controllers\AssetCategoryController;
 use App\Http\Controllers\AssetController;
+use App\Http\Controllers\AssetMaintenanceController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Asset;
 use App\Models\AssetAssignment;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -65,6 +67,22 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/assets-export-excel', [AssetController::class, 'exportExcel'])
         ->name('assets.export-excel');
+
+    // maintenance
+    Route::get('/assets/{asset}/maintenances/create', [AssetMaintenanceController::class, 'create'])
+        ->name('asset-maintenances.create');
+
+    Route::post('/assets/{asset}/maintenances', [AssetMaintenanceController::class, 'store'])
+        ->name('asset-maintenances.store');
+
+    Route::get('/asset-maintenances/{maintenance}/edit', [AssetMaintenanceController::class, 'edit'])
+        ->name('asset-maintenances.edit');
+
+    Route::put('/asset-maintenances/{maintenance}', [AssetMaintenanceController::class, 'update'])
+        ->name('asset-maintenances.update');
+
+    Route::delete('/asset-maintenances/{maintenance}', [AssetMaintenanceController::class, 'destroy'])
+        ->name('asset-maintenances.destroy');
 });
 
 require __DIR__ . '/auth.php';

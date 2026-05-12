@@ -56,7 +56,7 @@
 
                         </div>
 
-                        <div class="mt-5 grid grid-cols-2 gap-3">
+                        <div class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
 
                             <a href="{{ route('assets.qrcode', $asset->id) }}" target="_blank"
                                 class="inline-flex items-center justify-center rounded-xl bg-gray-800 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-white shadow-sm transition hover:bg-gray-900">
@@ -66,6 +66,11 @@
                             <a href="{{ route('assets.edit', $asset->id) }}"
                                 class="inline-flex items-center justify-center rounded-xl bg-yellow-500 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-white shadow-sm transition hover:bg-yellow-600">
                                 Edit Asset
+                            </a>
+
+                            <a href="{{ route('asset-maintenances.create', $asset->id) }}"
+                                class="inline-flex items-center justify-center rounded-xl bg-orange-600 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-white shadow-sm transition hover:bg-orange-700">
+                                Maintenance
                             </a>
 
                         </div>
@@ -433,6 +438,146 @@
 
                 </div>
 
+            </div>
+
+            <div class="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-gray-200">
+
+                <div class="border-b border-gray-200 px-6 py-5">
+                    <h3 class="text-lg font-semibold text-gray-800">
+                        Riwayat Maintenance
+                    </h3>
+
+                    <p class="mt-1 text-sm text-gray-500">
+                        Catatan perawatan, perbaikan, dan jadwal maintenance asset.
+                    </p>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                    Tanggal
+                                </th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                    Jenis
+                                </th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                    Teknisi
+                                </th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                    Biaya
+                                </th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                    Next Maintenance
+                                </th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                    Status
+                                </th>
+                                <th
+                                    class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                    Aksi
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="divide-y divide-gray-100 bg-white">
+                            @forelse($asset->maintenances as $maintenance)
+                                <tr class="transition hover:bg-gray-50">
+                                    <td class="px-6 py-4 text-sm text-gray-700">
+                                        {{ $maintenance->maintenance_date }}
+                                    </td>
+
+                                    <td class="px-6 py-4 text-sm font-semibold text-gray-800">
+                                        {{ strtoupper(str_replace('_', ' ', $maintenance->maintenance_type)) }}
+                                    </td>
+
+                                    <td class="px-6 py-4 text-sm text-gray-600">
+                                        {{ $maintenance->technician_name ?? '-' }}
+                                    </td>
+
+                                    <td class="px-6 py-4 text-sm text-gray-600">
+                                        Rp {{ number_format($maintenance->cost ?? 0, 0, ',', '.') }}
+                                    </td>
+
+                                    <td class="px-6 py-4 text-sm text-gray-600">
+                                        {{ $maintenance->next_maintenance_date ?? '-' }}
+                                    </td>
+
+                                    <td class="px-6 py-4">
+                                        @if ($maintenance->status === 'scheduled')
+                                            <span
+                                                class="rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-700">
+                                                SCHEDULED
+                                            </span>
+                                        @elseif($maintenance->status === 'in_progress')
+                                            <span
+                                                class="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
+                                                IN PROGRESS
+                                            </span>
+                                        @else
+                                            <span
+                                                class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+                                                COMPLETED
+                                            </span>
+                                        @endif
+                                    </td>
+
+                                    <td class="px-6 py-4 text-right">
+                                        <div class="flex justify-end gap-2">
+                                            <a href="{{ route('asset-maintenances.edit', $maintenance->id) }}"
+                                                class="rounded-lg bg-yellow-500 px-3 py-2 text-xs font-semibold text-white hover:bg-yellow-600">
+                                                Edit
+                                            </a>
+
+                                            <form action="{{ route('asset-maintenances.destroy', $maintenance->id) }}"
+                                                method="POST"
+                                                onsubmit="return confirm('Yakin hapus data maintenance ini?')">
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <button type="submit"
+                                                    class="rounded-lg bg-red-600 px-3 py-2 text-xs font-semibold text-white hover:bg-red-700">
+                                                    Hapus
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="px-6 py-16 text-center">
+                                        <div class="mx-auto max-w-sm">
+                                            <div
+                                                class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 text-2xl text-gray-500">
+                                                🛠️
+                                            </div>
+
+                                            <h3 class="text-sm font-semibold text-gray-800">
+                                                Belum ada data maintenance
+                                            </h3>
+
+                                            <p class="mt-1 text-sm text-gray-500">
+                                                Tambahkan data maintenance untuk mencatat perawatan asset.
+                                            </p>
+
+                                            <a href="{{ route('asset-maintenances.create', $asset->id) }}"
+                                                class="mt-4 inline-flex rounded-xl bg-orange-600 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white hover:bg-orange-700">
+                                                + Tambah Maintenance
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
         </div>
