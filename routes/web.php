@@ -11,11 +11,8 @@ use App\Models\AssetAssignment;
 use App\Models\AssetCategory;
 use App\Models\AssetMaintenance;
 use App\Models\Location;
+use App\Models\StockOpname;
 use Illuminate\Support\Facades\Route;
-
-
-
-
 
 
 
@@ -111,5 +108,43 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/asset-maintenances/{maintenance}', [AssetMaintenanceController::class, 'destroy'])
         ->name('asset-maintenances.destroy');
 });
+
+Route::middleware(['auth'])->group(function () {
+    Route::view('/stock-opname/scanner', 'stock-opname.scanner')
+        ->name('stock-opname.scanner');
+
+    Route::get('/stock-opname/manual', function () {
+        $assetCode = request('asset_code');
+
+        $asset = Asset::where('asset_code', $assetCode)->first();
+
+        if (! $asset) {
+            return redirect()
+                ->route('stock-opname.scanner')
+                ->with('error', 'Asset dengan kode tersebut tidak ditemukan.');
+        }
+
+        return redirect()->route('assets.show', $asset->id);
+    })->name('stock-opname.manual');
+});
+
+Route::post('/assets/{asset}/stock-opname', function (\Illuminate\Http\Request $request, Asset $asset) {
+
+    $request->validate([
+        'status' => 'required',
+        'notes' => 'nullable|string',
+    ]);
+
+    StockOpname::create([
+        'asset_id' => $asset->id,
+        'opname_date' => now(),
+        'status' => $request->status,
+        'notes' => $request->notes,
+    ]);
+
+    return back()->with('success', 'Validasi stock opname berhasil.');
+})
+    ->middleware(['auth'])
+    ->name('stock-opname.store');
 
 require __DIR__ . '/auth.php';

@@ -72,6 +72,12 @@
                         Lokasi Asset
                     </a>
 
+                    <a href="{{ route('stock-opname.scanner') }}"
+                        class="{{ request()->routeIs('stock-opname.*') ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-300' }} flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition hover:bg-slate-800">
+                        <span>📷</span>
+                        Stock Opname
+                    </a>
+
                 </nav>
 
                 <p class="mb-3 mt-8 px-3 text-xs font-semibold uppercase tracking-widest text-slate-500">
@@ -171,6 +177,12 @@
                     <a href="{{ route('locations.index') }}"
                         class="{{ request()->routeIs('locations.*') ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700' }} whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold">
                         Lokasi
+                    </a>
+
+                    <a href="{{ route('stock-opname.scanner') }}"
+                        class="{{ request()->routeIs('stock-opname.*') ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-300' }} flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition hover:bg-slate-800">
+                        <span>📷</span>
+                        Stock Opname
                     </a>
 
                     <a href="{{ route('assets.export-pdf') }}"

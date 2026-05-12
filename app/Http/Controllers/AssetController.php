@@ -93,6 +93,7 @@ class AssetController extends Controller
             'assignments.location',
             'activeAssignment.location',
             'maintenances',
+            'stockOpnames',
         ]);
 
         return view('assets.show', compact('asset'));

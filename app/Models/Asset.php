@@ -47,4 +47,9 @@ class Asset extends Model
     {
         return $this->hasMany(AssetMaintenance::class);
     }
+
+    public function stockOpnames()
+    {
+        return $this->hasMany(StockOpname::class);
+    }
 }

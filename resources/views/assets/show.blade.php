@@ -425,9 +425,170 @@
                                             <p class="mt-1 text-sm text-gray-500">
                                                 Asset ini belum pernah digunakan.
                                             </p>
-
                                         </div>
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
+
+            {{-- stok opname --}}
+            <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800">
+                        Validasi Stock Opname
+                    </h3>
+
+                    <p class="mt-1 text-sm text-gray-500">
+                        Validasi kondisi fisik asset saat stock opname.
+                    </p>
+                </div>
+
+                <form action="{{ route('stock-opname.store', $asset->id) }}" method="POST" class="space-y-5">
+
+                    @csrf
+
+                    <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
+
+                        <label>
+                            <input type="radio" name="status" value="found" class="peer hidden">
+
+                            <div
+                                class="cursor-pointer rounded-2xl border border-gray-200 bg-green-50 p-5 text-center transition peer-checked:border-green-600 peer-checked:ring-2 peer-checked:ring-green-300">
+                                <div class="text-3xl">✅</div>
+
+                                <p class="mt-2 text-sm font-bold text-green-700">
+                                    Ditemukan
+                                </p>
+                            </div>
+                        </label>
+
+                        <label>
+                            <input type="radio" name="status" value="broken" class="peer hidden">
+
+                            <div
+                                class="cursor-pointer rounded-2xl border border-gray-200 bg-red-50 p-5 text-center transition peer-checked:border-red-600 peer-checked:ring-2 peer-checked:ring-red-300">
+                                <div class="text-3xl">⚠️</div>
+
+                                <p class="mt-2 text-sm font-bold text-red-700">
+                                    Rusak
+                                </p>
+                            </div>
+                        </label>
+
+                        <label>
+                            <input type="radio" name="status" value="wrong_location" class="peer hidden">
+
+                            <div
+                                class="cursor-pointer rounded-2xl border border-gray-200 bg-yellow-50 p-5 text-center transition peer-checked:border-yellow-600 peer-checked:ring-2 peer-checked:ring-yellow-300">
+                                <div class="text-3xl">📍</div>
+
+                                <p class="mt-2 text-sm font-bold text-yellow-700">
+                                    Salah Lokasi
+                                </p>
+                            </div>
+                        </label>
+
+                        <label>
+                            <input type="radio" name="status" value="not_found" class="peer hidden">
+
+                            <div
+                                class="cursor-pointer rounded-2xl border border-gray-200 bg-gray-100 p-5 text-center transition peer-checked:border-gray-700 peer-checked:ring-2 peer-checked:ring-gray-300">
+                                <div class="text-3xl">❌</div>
+
+                                <p class="mt-2 text-sm font-bold text-gray-700">
+                                    Tidak Ditemukan
+                                </p>
+                            </div>
+                        </label>
+
+                    </div>
+
+                    <div>
+                        <label class="mb-2 block text-sm font-semibold text-gray-700">
+                            Catatan Opname
+                        </label>
+
+                        <textarea name="notes" rows="3" placeholder="Tambahkan catatan hasil pengecekan asset..."
+                            class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button type="submit"
+                            class="rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white hover:bg-indigo-700">
+                            Simpan Validasi
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <div class="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-gray-200">
+
+                <div class="border-b border-gray-200 px-6 py-5">
+                    <h3 class="text-lg font-semibold text-gray-800">
+                        Riwayat Stock Opname
+                    </h3>
+                </div>
+
+                <div class="overflow-x-auto">
+
+                    <table class="min-w-full divide-y divide-gray-200">
+
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                    Tanggal
+                                </th>
+
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                    Status
+                                </th>
+
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                    Catatan
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="divide-y divide-gray-100 bg-white">
+
+                            @forelse($asset->stockOpnames as $opname)
+                                <tr>
+
+                                    <td class="px-6 py-4 text-sm text-gray-700">
+                                        {{ $opname->opname_date }}
+                                    </td>
+
+                                    <td class="px-6 py-4">
+
+                                        <span
+                                            class="rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700">
+                                            {{ strtoupper(str_replace('_', ' ', $opname->status)) }}
+                                        </span>
+
+                                    </td>
+
+                                    <td class="px-6 py-4 text-sm text-gray-600">
+                                        {{ $opname->notes ?? '-' }}
+                                    </td>
+
+                                </tr>
+
+                            @empty
+
+                                <tr>
+                                    <td colspan="3" class="px-6 py-10 text-center text-sm text-gray-500">
+                                        Belum ada histori stock opname.
                                     </td>
                                 </tr>
                             @endforelse
@@ -440,13 +601,14 @@
 
             </div>
 
-            <div class="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-gray-200">
 
+
+
+            <div class="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-gray-200">
                 <div class="border-b border-gray-200 px-6 py-5">
                     <h3 class="text-lg font-semibold text-gray-800">
                         Riwayat Maintenance
                     </h3>
-
                     <p class="mt-1 text-sm text-gray-500">
                         Catatan perawatan, perbaikan, dan jadwal maintenance asset.
                     </p>
