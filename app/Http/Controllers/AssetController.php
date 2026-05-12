@@ -10,17 +10,42 @@ use Illuminate\Support\Facades\Storage;
 
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Exports\AssetsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AssetController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $assets = Asset::with(['category', 'location'])
-            ->latest()
-            ->paginate(10);
+        $categories = AssetCategory::orderBy('name')->get();
+        $locations = Location::orderBy('name')->get();
 
-        return view('assets.index', compact('assets'));
+        $assets = Asset::with(['category', 'location'])
+            ->when($request->search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('asset_code', 'like', '%' . $search . '%')
+                        ->orWhere('name', 'like', '%' . $search . '%')
+                        ->orWhere('brand', 'like', '%' . $search . '%')
+                        ->orWhere('model', 'like', '%' . $search . '%')
+                        ->orWhere('serial_number', 'like', '%' . $search . '%');
+                });
+            })
+            ->when($request->asset_category_id, function ($query, $categoryId) {
+                $query->where('asset_category_id', $categoryId);
+            })
+            ->when($request->location_id, function ($query, $locationId) {
+                $query->where('location_id', $locationId);
+            })
+            ->when($request->status, function ($query, $status) {
+                $query->where('status', $status);
+            })
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('assets.index', compact('assets', 'categories', 'locations'));
     }
+
 
     public function create()
     {
@@ -142,5 +167,10 @@ class AssetController extends Controller
             ->setPaper('a4', 'landscape');
 
         return $pdf->download('laporan-data-asset.pdf');
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new AssetsExport, 'laporan-data-asset.xlsx');
     }
 }

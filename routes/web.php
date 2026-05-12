@@ -62,6 +62,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/assets-export-pdf', [AssetController::class, 'exportPdf'])
         ->name('assets.export-pdf');
+
+    Route::get('/assets-export-excel', [AssetController::class, 'exportExcel'])
+        ->name('assets.export-excel');
 });
 
 require __DIR__ . '/auth.php';
