@@ -1,183 +1,242 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            Dashboard Asset Management
-        </h2>
+        <div>
+            <h2 class="text-2xl font-bold text-gray-800">
+                Dashboard Asset Management
+            </h2>
+
+            <p class="mt-1 text-sm text-gray-500">
+                Monitoring asset perusahaan secara real-time.
+            </p>
+        </div>
     </x-slot>
 
-    <div class="py-12">
-        <div class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
+    <div class="py-10">
+        <div class="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
 
-            <div class="grid grid-cols-1 gap-4 md:grid-cols-5">
-                <div class="rounded-lg bg-white p-5 shadow-sm">
-                    <p class="text-sm text-gray-500">Total Asset</p>
-                    <h3 class="text-3xl font-bold">{{ $totalAssets }}</h3>
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+
+                <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+                    <p class="text-sm font-medium text-gray-500">
+                        Total Asset
+                    </p>
+
+                    <h3 class="mt-3 text-4xl font-bold text-gray-800">
+                        {{ $totalAssets }}
+                    </h3>
                 </div>
 
-                <div class="rounded-lg bg-green-50 p-5 shadow-sm">
-                    <p class="text-sm text-green-700">Tersedia</p>
-                    <h3 class="text-3xl font-bold text-green-800">{{ $availableAssets }}</h3>
+                <div class="rounded-2xl bg-green-50 p-6 shadow-sm ring-1 ring-green-200">
+                    <p class="text-sm font-medium text-green-700">
+                        Asset Available
+                    </p>
+
+                    <h3 class="mt-3 text-4xl font-bold text-green-800">
+                        {{ $availableAssets }}
+                    </h3>
                 </div>
 
-                <div class="rounded-lg bg-blue-50 p-5 shadow-sm">
-                    <p class="text-sm text-blue-700">Dipakai</p>
-                    <h3 class="text-3xl font-bold text-blue-800">{{ $inUseAssets }}</h3>
+                <div class="rounded-2xl bg-yellow-50 p-6 shadow-sm ring-1 ring-yellow-200">
+                    <p class="text-sm font-medium text-yellow-700">
+                        Maintenance
+                    </p>
+
+                    <h3 class="mt-3 text-4xl font-bold text-yellow-800">
+                        {{ $maintenanceAssets }}
+                    </h3>
                 </div>
 
-                <div class="rounded-lg bg-yellow-50 p-5 shadow-sm">
-                    <p class="text-sm text-yellow-700">Maintenance</p>
-                    <h3 class="text-3xl font-bold text-yellow-800">{{ $maintenanceAssets }}</h3>
+                <div class="rounded-2xl bg-red-50 p-6 shadow-sm ring-1 ring-red-200">
+                    <p class="text-sm font-medium text-red-700">
+                        Broken Asset
+                    </p>
+
+                    <h3 class="mt-3 text-4xl font-bold text-red-800">
+                        {{ $brokenAssets }}
+                    </h3>
                 </div>
 
-                <div class="rounded-lg bg-red-50 p-5 shadow-sm">
-                    <p class="text-sm text-red-700">Rusak</p>
-                    <h3 class="text-3xl font-bold text-red-800">{{ $brokenAssets }}</h3>
-                </div>
             </div>
 
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
 
-                <div class="rounded-lg bg-white p-6 shadow-sm lg:col-span-2">
-                    <h3 class="mb-4 text-lg font-semibold">
-                        Ringkasan Status Asset
-                    </h3>
+                <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200 lg:col-span-2">
 
-                    <div class="space-y-4">
-                        <div>
-                            <div class="mb-1 flex justify-between text-sm">
-                                <span>Tersedia</span>
-                                <span>{{ $availableAssets }}</span>
-                            </div>
-                            <div class="h-3 w-full rounded-full bg-gray-200">
-                                <div class="h-3 rounded-full bg-green-500"
-                                    style="width: {{ $totalAssets > 0 ? ($availableAssets / $totalAssets) * 100 : 0 }}%">
-                                </div>
-                            </div>
-                        </div>
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold text-gray-800">
+                            Asset Status Analytics
+                        </h3>
 
-                        <div>
-                            <div class="mb-1 flex justify-between text-sm">
-                                <span>Dipakai</span>
-                                <span>{{ $inUseAssets }}</span>
-                            </div>
-                            <div class="h-3 w-full rounded-full bg-gray-200">
-                                <div class="h-3 rounded-full bg-blue-500"
-                                    style="width: {{ $totalAssets > 0 ? ($inUseAssets / $totalAssets) * 100 : 0 }}%">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="mb-1 flex justify-between text-sm">
-                                <span>Maintenance</span>
-                                <span>{{ $maintenanceAssets }}</span>
-                            </div>
-                            <div class="h-3 w-full rounded-full bg-gray-200">
-                                <div class="h-3 rounded-full bg-yellow-500"
-                                    style="width: {{ $totalAssets > 0 ? ($maintenanceAssets / $totalAssets) * 100 : 0 }}%">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="mb-1 flex justify-between text-sm">
-                                <span>Rusak</span>
-                                <span>{{ $brokenAssets }}</span>
-                            </div>
-                            <div class="h-3 w-full rounded-full bg-gray-200">
-                                <div class="h-3 rounded-full bg-red-500"
-                                    style="width: {{ $totalAssets > 0 ? ($brokenAssets / $totalAssets) * 100 : 0 }}%">
-                                </div>
-                            </div>
-                        </div>
+                        <p class="mt-1 text-sm text-gray-500">
+                            Distribusi status asset perusahaan.
+                        </p>
                     </div>
+
+                    <canvas id="assetChart" height="120"></canvas>
+
                 </div>
 
-                <div class="rounded-lg bg-white p-6 shadow-sm">
-                    <h3 class="mb-4 text-lg font-semibold">
-                        Menu Cepat
-                    </h3>
+                <div class="space-y-6">
 
-                    <div class="space-y-3">
-                        <a href="{{ route('assets.index') }}"
-                            class="block rounded bg-indigo-600 px-4 py-3 text-white hover:bg-indigo-700">
-                            Data Asset
-                        </a>
+                    <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+                        <p class="text-sm font-medium text-gray-500">
+                            Total Kategori
+                        </p>
 
-                        <a href="{{ route('asset-categories.index') }}"
-                            class="block rounded bg-gray-700 px-4 py-3 text-white hover:bg-gray-800">
-                            Kategori Asset
-                        </a>
-
-                        <a href="{{ route('locations.index') }}"
-                            class="block rounded bg-gray-700 px-4 py-3 text-white hover:bg-gray-800">
-                            Lokasi Asset
-                        </a>
-
-                        <a href="{{ route('assets.create') }}"
-                            class="block rounded bg-green-600 px-4 py-3 text-white hover:bg-green-700">
-                            Tambah Asset Baru
-                        </a>
+                        <h3 class="mt-3 text-4xl font-bold text-gray-800">
+                            {{ $totalCategories }}
+                        </h3>
                     </div>
+
+                    <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+                        <p class="text-sm font-medium text-gray-500">
+                            Total Lokasi
+                        </p>
+
+                        <h3 class="mt-3 text-4xl font-bold text-gray-800">
+                            {{ $totalLocations }}
+                        </h3>
+                    </div>
+
                 </div>
 
             </div>
 
-            <div class="rounded-lg bg-white p-6 shadow-sm">
-                <h3 class="mb-4 text-lg font-semibold">
-                    Aktivitas Pemakaian Terbaru
-                </h3>
+            <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
 
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">Asset</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">Pemakai</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">Departemen</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">Lokasi</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">Tanggal Pakai
-                            </th>
-                            <th class="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">Status</th>
-                        </tr>
-                    </thead>
+                <div class="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-gray-200">
 
-                    <tbody class="divide-y divide-gray-200 bg-white">
-                        @forelse($recentAssignments as $assignment)
-                            <tr>
-                                <td class="px-4 py-3">
-                                    {{ $assignment->asset->name ?? '-' }}
-                                </td>
-                                <td class="px-4 py-3">
-                                    {{ $assignment->employee_name }}
-                                </td>
-                                <td class="px-4 py-3">
-                                    {{ $assignment->department ?? '-' }}
-                                </td>
-                                <td class="px-4 py-3">
-                                    {{ $assignment->location->name ?? '-' }}
-                                </td>
-                                <td class="px-4 py-3">
-                                    {{ $assignment->assigned_date }}
-                                </td>
-                                <td class="px-4 py-3">
+                    <div class="border-b border-gray-200 px-6 py-5">
+                        <h3 class="text-lg font-semibold text-gray-800">
+                            Recent Maintenance
+                        </h3>
+                    </div>
+
+                    <div class="divide-y divide-gray-100">
+
+                        @forelse($recentMaintenances as $maintenance)
+                            <div class="px-6 py-4">
+                                <div class="flex items-start justify-between">
+
+                                    <div>
+                                        <p class="font-semibold text-gray-800">
+                                            {{ $maintenance->asset->name ?? '-' }}
+                                        </p>
+
+                                        <p class="mt-1 text-sm text-gray-500">
+                                            {{ strtoupper($maintenance->maintenance_type) }}
+                                        </p>
+                                    </div>
+
                                     <span
-                                        class="@if ($assignment->status === 'active') bg-blue-100 text-blue-800
-                                        @else bg-gray-100 text-gray-800 @endif rounded px-2 py-1 text-xs">
+                                        class="rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-700">
+                                        {{ strtoupper($maintenance->status) }}
+                                    </span>
+
+                                </div>
+                            </div>
+
+                        @empty
+
+                            <div class="px-6 py-10 text-center text-sm text-gray-500">
+                                Belum ada data maintenance
+                            </div>
+                        @endforelse
+
+                    </div>
+
+                </div>
+
+                <div class="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-gray-200">
+
+                    <div class="border-b border-gray-200 px-6 py-5">
+                        <h3 class="text-lg font-semibold text-gray-800">
+                            Recent Asset Assignment
+                        </h3>
+                    </div>
+
+                    <div class="divide-y divide-gray-100">
+
+                        @forelse($recentAssignments as $assignment)
+                            <div class="px-6 py-4">
+                                <div class="flex items-start justify-between">
+
+                                    <div>
+                                        <p class="font-semibold text-gray-800">
+                                            {{ $assignment->asset->name ?? '-' }}
+                                        </p>
+
+                                        <p class="mt-1 text-sm text-gray-500">
+                                            {{ $assignment->employee_name }}
+                                        </p>
+                                    </div>
+
+                                    <span
+                                        class="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
                                         {{ strtoupper($assignment->status) }}
                                     </span>
-                                </td>
-                            </tr>
+
+                                </div>
+                            </div>
+
                         @empty
-                            <tr>
-                                <td colspan="6" class="px-4 py-4 text-center text-gray-500">
-                                    Belum ada aktivitas pemakaian asset.
-                                </td>
-                            </tr>
+
+                            <div class="px-6 py-10 text-center text-sm text-gray-500">
+                                Belum ada data assignment
+                            </div>
                         @endforelse
-                    </tbody>
-                </table>
+
+                    </div>
+
+                </div>
+
             </div>
 
         </div>
     </div>
+
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const ctx = document.getElementById('assetChart');
+
+                if (ctx) {
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: {!! json_encode(array_keys($assetStatuses)) !!},
+                            datasets: [{
+                                label: 'Jumlah Asset',
+                                data: {!! json_encode(array_values($assetStatuses)) !!},
+                                backgroundColor: [
+                                    '#22c55e',
+                                    '#3b82f6',
+                                    '#eab308',
+                                    '#ef4444',
+                                    '#6b7280'
+                                ],
+                                borderRadius: 8
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    display: false
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        precision: 0
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        </script>
+    @endpush
 </x-app-layout>
