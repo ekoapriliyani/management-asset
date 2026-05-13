@@ -4,6 +4,7 @@ use App\Http\Controllers\AssetAssignmentController;
 use App\Http\Controllers\AssetCategoryController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AssetMaintenanceController;
+use App\Http\Controllers\AssetRequestController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Asset;
@@ -13,6 +14,7 @@ use App\Models\AssetMaintenance;
 use App\Models\Location;
 use App\Models\StockOpname;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -146,5 +148,28 @@ Route::post('/assets/{asset}/stock-opname', function (\Illuminate\Http\Request $
 })
     ->middleware(['auth'])
     ->name('stock-opname.store');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/asset-requests', [AssetRequestController::class, 'index'])
+        ->name('asset-requests.index');
+
+    Route::get('/asset-requests/create', [AssetRequestController::class, 'create'])
+        ->name('asset-requests.create');
+
+    Route::post('/asset-requests', [AssetRequestController::class, 'store'])
+        ->name('asset-requests.store');
+
+    Route::get('/asset-requests/{assetRequest}', [AssetRequestController::class, 'show'])
+        ->name('asset-requests.show');
+});
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::put('/asset-requests/{assetRequest}/approve', [AssetRequestController::class, 'approve'])
+        ->name('asset-requests.approve');
+
+    Route::put('/asset-requests/{assetRequest}/reject', [AssetRequestController::class, 'reject'])
+        ->name('asset-requests.reject');
+});
+
 
 require __DIR__ . '/auth.php';

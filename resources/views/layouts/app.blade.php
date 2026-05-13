@@ -31,13 +31,19 @@
                 <p class="mb-3 px-3 text-xs font-semibold uppercase tracking-widest text-slate-500">
                     Main Menu
                 </p>
-                @if (auth()->user()->role === 'admin')
-                    <nav class="space-y-2">
-                        <a href="{{ route('dashboard') }}"
-                            class="{{ request()->routeIs('dashboard') ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-300' }} flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition hover:bg-slate-800">
-                            <span>📊</span>
-                            Dashboard
-                        </a>
+
+                <nav class="space-y-2">
+                    <a href="{{ route('dashboard') }}"
+                        class="{{ request()->routeIs('dashboard') ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-300' }} flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition hover:bg-slate-800">
+                        <span>📊</span>
+                        Dashboard
+                    </a>
+                    <a href="{{ route('asset-requests.index') }}"
+                        class="{{ request()->routeIs('asset-requests.*') ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-300' }} flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition hover:bg-slate-800">
+                        <span>📝</span>
+                        Asset Request
+                    </a>
+                    @if (auth()->user()->role === 'admin')
                         <a href="{{ route('assets.index') }}"
                             class="{{ request()->routeIs('assets.*') ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-300' }} flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition hover:bg-slate-800">
                             <span>📦</span>
@@ -59,22 +65,22 @@
                             <span>📷</span>
                             Stock Opname
                         </a>
-                    </nav>
-                    <p class="mb-3 mt-8 px-3 text-xs font-semibold uppercase tracking-widest text-slate-500">
-                        Reports
-                    </p>
-                    <nav class="space-y-2">
-                        <a href="{{ route('assets.export-pdf') }}"
-                            class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-slate-800">
-                            <span>📄</span>
-                            Export PDF
-                        </a>
-                        <a href="{{ route('assets.export-excel') }}"
-                            class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-slate-800">
-                            <span>📊</span>
-                            Export Excel
-                        </a>
-                    </nav>
+                </nav>
+                <p class="mb-3 mt-8 px-3 text-xs font-semibold uppercase tracking-widest text-slate-500">
+                    Reports
+                </p>
+                <nav class="space-y-2">
+                    <a href="{{ route('assets.export-pdf') }}"
+                        class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-slate-800">
+                        <span>📄</span>
+                        Export PDF
+                    </a>
+                    <a href="{{ route('assets.export-excel') }}"
+                        class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-slate-800">
+                        <span>📊</span>
+                        Export Excel
+                    </a>
+                </nav>
                 @endif
             </div>
             <div class="border-t border-slate-800 p-5">
@@ -126,31 +132,38 @@
                         class="{{ request()->routeIs('dashboard') ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700' }} whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold">
                         Dashboard
                     </a>
-                    <a href="{{ route('assets.index') }}"
-                        class="{{ request()->routeIs('assets.*') ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700' }} whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold">
-                        Asset
+                    <a href="{{ route('asset-requests.index') }}"
+                        class="{{ request()->routeIs('asset-requests.*') ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700' }} whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold">
+                        Request
                     </a>
-                    <a href="{{ route('asset-categories.index') }}"
-                        class="{{ request()->routeIs('asset-categories.*') ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700' }} whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold">
-                        Kategori
-                    </a>
-                    <a href="{{ route('locations.index') }}"
-                        class="{{ request()->routeIs('locations.*') ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700' }} whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold">
-                        Lokasi
-                    </a>
-                    <a href="{{ route('stock-opname.scanner') }}"
-                        class="{{ request()->routeIs('stock-opname.*') ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-300' }} flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition hover:bg-slate-800">
-                        <span>📷</span>
-                        Stock Opname
-                    </a>
-                    <a href="{{ route('assets.export-pdf') }}"
-                        class="whitespace-nowrap rounded-lg bg-gray-100 px-3 py-2 text-xs font-semibold text-gray-700">
-                        PDF
-                    </a>
-                    <a href="{{ route('assets.export-excel') }}"
-                        class="whitespace-nowrap rounded-lg bg-gray-100 px-3 py-2 text-xs font-semibold text-gray-700">
-                        Excel
-                    </a>
+
+                    @if (auth()->user()->role === 'admin')
+                        <a href="{{ route('assets.index') }}"
+                            class="{{ request()->routeIs('assets.*') ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700' }} whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold">
+                            Asset
+                        </a>
+                        <a href="{{ route('asset-categories.index') }}"
+                            class="{{ request()->routeIs('asset-categories.*') ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700' }} whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold">
+                            Kategori
+                        </a>
+                        <a href="{{ route('locations.index') }}"
+                            class="{{ request()->routeIs('locations.*') ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700' }} whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold">
+                            Lokasi
+                        </a>
+                        <a href="{{ route('stock-opname.scanner') }}"
+                            class="{{ request()->routeIs('stock-opname.*') ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-300' }} flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition hover:bg-slate-800">
+                            <span>📷</span>
+                            Stock Opname
+                        </a>
+                        <a href="{{ route('assets.export-pdf') }}"
+                            class="whitespace-nowrap rounded-lg bg-gray-100 px-3 py-2 text-xs font-semibold text-gray-700">
+                            PDF
+                        </a>
+                        <a href="{{ route('assets.export-excel') }}"
+                            class="whitespace-nowrap rounded-lg bg-gray-100 px-3 py-2 text-xs font-semibold text-gray-700">
+                            Excel
+                        </a>
+                    @endif
                 </div>
                 <div class="hidden items-center justify-between px-6 py-5 lg:flex">
                     <div>
