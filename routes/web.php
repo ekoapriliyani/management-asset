@@ -69,7 +69,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('asset-categories', AssetCategoryController::class);
     Route::resource('locations', LocationController::class);
     Route::resource('assets', AssetController::class);
