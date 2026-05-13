@@ -1,3 +1,4 @@
+@section('title', 'Asset Request - Asset Management')
 <x-app-layout>
     <x-slot name="header">
         <div>
