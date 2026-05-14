@@ -61,6 +61,22 @@ class LocationsSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'code' => 'IT',
+                'name' => 'Ruang IT',
+                'department' => 'IT',
+                'description' => 'Lokasi untuk aktivitas IT',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'code' => 'M',
+                'name' => 'Mobiling',
+                'department' => 'All Departments',
+                'description' => 'Lokasi untuk aktivitas mobiling',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 }
