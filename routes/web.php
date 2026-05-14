@@ -5,6 +5,7 @@ use App\Http\Controllers\AssetCategoryController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AssetMaintenanceController;
 use App\Http\Controllers\AssetRequestController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Asset;
@@ -18,52 +19,14 @@ use Illuminate\Support\Facades\Route;
 
 
 
+
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::get('/dashboard', function () {
-    $totalAssets = Asset::count();
-    $availableAssets = Asset::where('status', 'available')->count();
-    $inUseAssets = Asset::where('status', 'in_use')->count();
-    $maintenanceAssets = Asset::where('status', 'maintenance')->count();
-    $brokenAssets = Asset::where('status', 'broken')->count();
-    $disposedAssets = Asset::where('status', 'disposed')->count();
-    $totalCategories = AssetCategory::count();
-    $totalLocations = Location::count();
-
-    $assetStatuses = [
-        'Available' => $availableAssets,
-        'In Use' => $inUseAssets,
-        'Maintenance' => $maintenanceAssets,
-        'Broken' => $brokenAssets,
-        'Disposed' => $disposedAssets,
-    ];
-
-    $recentAssignments = AssetAssignment::with(['asset', 'location'])
-        ->latest()
-        ->take(5)
-        ->get();
-
-    $recentMaintenances = AssetMaintenance::with('asset')
-        ->latest()
-        ->take(5)
-        ->get();
-
-    return view('dashboard', compact(
-        'totalAssets',
-        'availableAssets',
-        'inUseAssets',
-        'maintenanceAssets',
-        'brokenAssets',
-        'disposedAssets',
-        'totalCategories',
-        'totalLocations',
-        'assetStatuses',
-        'recentAssignments',
-        'recentMaintenances'
-    ));
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

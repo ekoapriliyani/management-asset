@@ -12,8 +12,8 @@
 </head>
 
 <body class="bg-gray-100 font-sans antialiased">
-    <div class="flex min-h-screen">
-        <aside class="hidden w-72 flex-col bg-slate-900 text-white lg:flex">
+    <div class="flex min-h-screen lg:flex">
+        <aside class="fixed inset-y-0 left-0 z-40 hidden w-72 flex-col bg-slate-900 text-white lg:flex">
             <div class="border-b border-slate-800 px-8 py-6">
                 <div class="flex items-center gap-4">
                     <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-600 text-xl font-bold">
@@ -103,7 +103,7 @@
                 </div>
             </div>
         </aside>
-        <div class="flex flex-1 flex-col overflow-hidden">
+        <div class="flex min-h-screen flex-1 flex-col lg:ml-72">
             <header class="border-b border-gray-200 bg-white">
                 <div class="flex items-center justify-between px-6 py-4 lg:hidden">
                     <div class="flex items-center gap-3">

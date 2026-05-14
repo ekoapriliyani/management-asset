@@ -78,6 +78,32 @@
                 </div>
 
                 <div class="space-y-6">
+                    <div class="rounded-2xl bg-gradient-to-br from-yellow-500 to-orange-500 p-6 text-white shadow-lg">
+
+                        <div class="flex items-start justify-between">
+
+                            <div>
+                                <p class="text-sm font-semibold uppercase tracking-wider text-yellow-100">
+                                    Pending Request
+                                </p>
+
+                                <h3 class="mt-3 text-4xl font-black">
+                                    {{ $pendingRequests }}
+                                </h3>
+
+                                <p class="mt-2 text-sm text-yellow-100">
+                                    Asset request menunggu approval
+                                </p>
+                            </div>
+
+                            <div
+                                class="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/20 text-3xl backdrop-blur">
+                                📝
+                            </div>
+
+                        </div>
+
+                    </div>
 
                     <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
                         <p class="text-sm font-medium text-gray-500">
